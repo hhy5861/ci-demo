@@ -4,7 +4,7 @@ env.PROJ_BUILD_NAME="${PROJ_NAME}-86-x64-linux"
 env.WEB_WORK="/data/web/${PROJ_NAME}"
 
 env.GIT_URL="git@github.com:hhy5861/ci-demo.git"
-node('master') {
+node('demo') {
     withEnv(["GOPATH=$WORKSPACE"]) {
         stage('init') {
             sh '''
@@ -15,7 +15,7 @@ node('master') {
         stage('scm') {
             checkout([
                 $class: 'GitSCM',
-                branches: [[name: '*/master']],
+                branches: [[name: '*/demo']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${PROJ_DIR}"]],
                 submoduleCfg: [],
@@ -32,9 +32,9 @@ node('master') {
             '''
         }
 
-        stage('deploy master') {
+        stage('deploy demo') {
             sh '''
-                echo 'deploy master ok'
+                echo 'deploy demo ok'
             '''
         }
     }
