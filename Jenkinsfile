@@ -2,33 +2,31 @@ pipeline {
     agent any
 
     stages {
-        stage('test') {
+        stage ('Test 3: Master') {
+            when { branch 'master' }
             steps {
-                sh 'echo hello'
+                echo 'I only execute on the master branch.'
             }
         }
 
-        stage('test1') {
+        stage ('Test 3: Develop') {
+            when { branch 'develop' }
             steps {
-                sh 'echo $TEST'
+                echo 'I only execute on the develop branch.'
             }
         }
 
-        stage('test3') {
+        stage ('Test 3: Demo') {
+            when {  branch 'demo' } 
             steps {
-                script {
-                    if (env.BRANCH_NAME == 'master') {
-                        echo 'I only execute on the master branch'
-                    } else {
-                        node('develop'){
-                            stage('init') {
-                                sh '''
-                                    echo 'I execute elsewhere'
-                                '''
-                            }
-                        }
-                    }
-                }
+                echo 'I only execute on the demo branch.'
+            }
+        }
+
+        stage ('Test 3: Demo-1') {
+            when {  branch 'demo-1' } 
+            steps {
+                echo 'I only execute on the demo-1 branch.'
             }
         }
     }
