@@ -18,9 +18,15 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
-                            echo 'I only execute on the master branch'
+                        echo 'I only execute on the master branch'
                     } else {
-                            echo 'I execute elsewhere'
+                        node('develop'){
+                            stage('init') {
+                                sh '''
+                                    echo 'I execute elsewhere'
+                                '''
+                            }
+                        }
                     }
                 }
             }
