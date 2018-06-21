@@ -26,7 +26,9 @@ pipeline {
         stage ('Test 3: Demo-1') {
             when {  branch 'demo-1' } 
             steps {
-                echo 'I only execute on the demo-1 branch.'
+                node('demo'){
+                    echo 'I only execute on the demo-1 branch.'
+                }
             }
         }
     }
