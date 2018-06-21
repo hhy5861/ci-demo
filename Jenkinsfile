@@ -33,8 +33,18 @@ node('demo') {
         }
 
         stage('deploy demo') {
+            steps {
+                script {
+                   if (env.BRANCH_NAME == 'master') {
+                       echo 'I only execute on the master branch'
+                   } else {
+                       echo 'I execute elsewhere'
+                   }
+                }
+            }
+            
             sh '''
-                echo "demo-1 for mike.huang"
+                echo "${BRANCH_NAME}"
                 echo 'deploy demo ok'
             '''
         }
