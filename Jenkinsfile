@@ -1,52 +1,13 @@
-env.PROJ_NAME='ci-demo'
-env.PROJ_DIR="src/github.com/hhy5861/${PROJ_NAME}"
-env.PROJ_BUILD_NAME="${PROJ_NAME}-86-x64-linux"
-env.WEB_WORK="/data/web/${PROJ_NAME}"
+stage ('Test 3: Master') {
+    when { branch 'master' }
+    steps { 
+        echo 'I only execute on the master branch.' 
+    }
+}
 
-env.GIT_URL="git@github.com:hhy5861/ci-demo.git"
-node('demo') {
-    withEnv(["GOPATH=$WORKSPACE"]) {
-        stage('init') {
-            sh '''
-                mkdir -p $GOPATH/{bin,pkg,src}
-            '''
-        }
-
-        stage('scm') {
-            checkout([
-                $class: 'GitSCM',
-                branches: [[name: '*/demo']],
-                doGenerateSubmoduleConfigurations: false,
-                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${PROJ_DIR}"]],
-                submoduleCfg: [],
-                userRemoteConfigs: [[
-                    credentialsId: '670152fe-b26f-450a-aa2c-eba2312e1f60',
-                    url: "${GIT_URL}"
-                ]]
-            ])
-        }
-
-        stage('build') {
-            sh '''
-                echo 'build golang ok'
-            '''
-        }
-
-        stage('deploy demo') {
-            steps {
-                script {
-                   if (env.BRANCH_NAME == 'master') {
-                       echo 'I only execute on the master branch'
-                   } else {
-                       echo 'I execute elsewhere'
-                   }
-                }
-            }
-            
-            sh '''
-                echo "${BRANCH_NAME}"
-                echo 'deploy demo ok'
-            '''
-        }
+stage ('Test 3: Dev') {
+    when { not { branch 'master' } }
+    steps {
+        echo 'I execute on non-master branches.'
     }
 }
