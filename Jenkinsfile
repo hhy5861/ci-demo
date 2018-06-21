@@ -34,7 +34,7 @@ node('demo') {
 
         stage('deploy demo') {
             sh '''
-                echo "demo-1 ok"
+                echo "demo-1 ok ~~~~"
                 echo 'deploy demo ok'
             '''
         }
