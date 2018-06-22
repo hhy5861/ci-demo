@@ -11,10 +11,12 @@ pipeline {
             }
         }
 
-        stage ('develop') {
+        stage ('Develop') {
             when {  branch 'develop' } 
-            node('develop') {
-                echo 'I only execute on the develop branch.'
+            steps {
+                node('develop') {
+                    echo 'I only execute on the develop branch.'
+                }
             }
         }
     }
