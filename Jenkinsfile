@@ -1,27 +1,29 @@
 #!/usr/bin/env groovy
 
-switch (env.BRANCH_NAME) {  
-    case 'master': 
-        sh '''
-            echo 'master'
-        '''
-        break  
-    case 'demo':  
-        sh '''
-            echo 'demo'
-        '''
-        break  
-    case 'test':  
-        sh '''
-            echo 'test'
-        '''  
-        break  
-    default:  
-        sh '''
-            echo "${BRANCH_NAME}"
-        ''' 
-        break  
-} 
+pipeline {
+    switch (env.BRANCH_NAME) {  
+        case 'master': 
+            sh '''
+                echo 'master'
+            '''
+            break  
+        case 'demo':  
+            sh '''
+                echo 'demo'
+            '''
+            break  
+        case 'test':  
+            sh '''
+                echo 'test'
+            '''  
+            break  
+        default:  
+            sh '''
+                echo "${BRANCH_NAME}"
+            ''' 
+            break  
+    } 
+}
 
 // Jenkinsfile (Scripted Pipeline)
 node('demo') {
