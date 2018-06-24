@@ -1,23 +1,37 @@
-pipeline {
-    agent any
+#!/usr/bin/env groovy
 
-    stages {
-        stage ('Master') {
-            when { branch 'master' }
-            steps {
-                node('master') {
-                    echo 'I only execute on the master branch.'
-                }
-            }
+// Jenkinsfile (Scripted Pipeline)
+node('demo') {
+    env.SERVICE_NAME = "ci-demo"
+    try {
+        checkout scm
+
+        stage("环境变量") {
+            sh 'printenv'
         }
 
-        stage ('Develop') {
-            when {  branch 'develop' } 
-            steps {
-                node('develop') {
-                    echo 'I only execute on the develop branch.'
-                }
-            }
+        stage("检出代码") {
+            checkout scm
         }
+
+        stage('镜像构建') {
+            sh '''
+                echo 'build'
+            '''
+        }
+
+        stage('部署') {
+            sh '''
+                echo 'deploy'
+            '''
+        }
+    } catch (e) {
+        print(e.toString())
+        currentBuild.result = "FAILURE"
+        env.OK="false"
+    } finally {
+        sh '''
+            echo 'notify'
+        '''
     }
 }
